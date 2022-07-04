@@ -8,7 +8,7 @@ using Excel_VBA.Model;
 
 namespace Excel_VBA.Controller
 {
-	public class ComparisonService
+	public class CalculationService
 	{
 		private string _directoryPath = "";
 		private readonly ConvertTxtToCsvService _convertTxtToCsvService = new();
@@ -23,6 +23,8 @@ namespace Excel_VBA.Controller
 			GenerateFiles();
 
 			// Todo compare both files and save into bom amnd costs
+
+
 
 			/*for (int i = 0; i < 3000; i++)
 			{
@@ -68,24 +70,14 @@ namespace Excel_VBA.Controller
 			_fileImportComparison2 = new FileImportService(_directoryPath + "FileComparison2.csv");
 
 			// Compare costs number
-			Console.WriteLine("Compare on CHf 1 or CHf 10:");
-			string checkOnDifference = Console.ReadLine();
+			Console.WriteLine("Compare on CHf 1 to CHf 10: [1 - 10]");
 
-		}
-
-		/// <summary>
-		/// clears All Files from Directory with generated Files
-		/// </summary>
-		public void ClearAllFiles()
-		{
-			DirectoryInfo directory = new DirectoryInfo(_directoryPath);
-			if (directory.GetFiles().Length != 0)
+			while (!int.TryParse(Console.ReadLine(), out _checkOnDifference))
 			{
-				foreach (FileInfo file in directory.GetFiles())
-				{
-					file.Delete();
-				}
+				Console.WriteLine("Compare on CHf 1 to CHf 10: [1 - 10]");
 			}
+
+
 		}
 	}
 }
