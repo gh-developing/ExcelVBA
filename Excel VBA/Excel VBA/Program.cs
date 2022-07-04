@@ -2,20 +2,26 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using Excel_VBA.Controller;
 using Excel_VBA.Model;
 using Microsoft.VisualBasic.FileIO;
 
 namespace Excel_VBA
 {
-	internal class Program
+	public class Program
 	{
-		static void Main(string[] args)
+		public static void Main(string[] args)
 		{
-			// C:\Users\chash\Documents\GitHub\Excel VBA\Excel VBA\LaserschneidmaschineExcelTest.csv
+			/*ComparisonService c = new ComparisonService();
+			c.CompareFiles();*/
 
-			ComparisonController comparisonController = new ComparisonController();
-			comparisonController.compare();
+			// FileImportService f = new FileImportService(@"C:\Users\chash\Desktop\FilesCSV\GeneratedFiles\File1.csv");
+
+			ConvertTxtToCsvService c = 
+				new ConvertTxtToCsvService();
+
+			c.RegexCsv(@"C:\Users\chash\Desktop\FilesCSV\GeneratedFiles\File1.csv");
 		}
 	}
 }
