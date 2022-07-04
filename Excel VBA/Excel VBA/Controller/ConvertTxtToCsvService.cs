@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using com.sun.tools.javac.comp;
 
 namespace Excel_VBA.Controller
 {
@@ -25,8 +26,6 @@ namespace Excel_VBA.Controller
 		{
 			var csvFilePath = $@"{csvPath}";
 			var txtLines = System.IO.File.ReadAllLines($@"{txtPath}");
-
-
 
 			var result = string.Join(Environment.NewLine,
 				txtLines.Select(x => x.Split('\t'))
@@ -60,31 +59,38 @@ namespace Excel_VBA.Controller
 		/// <param name="csvPath"></param>
 		public void RegexCsv(string csvPath)
 		{
-			var fileText = File.ReadAllLines(csvPath).Skip(6);
+			var fileLines = File.ReadAllLines(csvPath).Skip(6);
 			var csv = new StringBuilder();
 
-			foreach (var i in fileText)
+			foreach (var fileLine in fileLines)
 			{
-				var resultDelFrontSem = _regexBeforeSemicolon.Replace(i, "");
+				// Deletes semicolons [;] before Calc. structure
+				var resultDelFrontSem = _regexBeforeSemicolon.Replace(fileLine, "");
+				// Deletes semicolons [;] after Calc. structure and adds a semicolon
 				var resultDelBackSem = _regexAfterSemicolon.Replace(resultDelFrontSem, "$1;");
+				// get Price unit
 				var resultPriceUnit = _regexPriceUnit.Match(resultDelBackSem).Value;
 
+				// Checks if Price Unit is zero
 				if (resultPriceUnit.Length != 0)
 				{
-					if (resultPriceUnit[resultPriceUnit.Length - 1] == '0')
+					if (resultPriceUnit.Last() == '0')
 					{
+						// Inserts semicolons to align it
 						resultDelBackSem = resultDelBackSem.Insert(resultPriceUnit.Length - 2, ";;");
 					}
 				}
 
+				// Checks if material exists
 				if (!_regexMaterial.IsMatch(resultDelBackSem) && resultDelBackSem != " ")
 				{
-					var count = _regexCalcStructureLength.Match(resultDelBackSem).Length;
-					resultDelBackSem = resultDelBackSem.Insert(count, ";");
+					var lengthToInsert = _regexCalcStructureLength.Match(resultDelBackSem).Length;
+					// Inserts semicolons to align it
+					resultDelBackSem = resultDelBackSem.Insert(lengthToInsert, ";");
 				}
 
+				// Writes into File
 				csv.AppendLine(resultDelBackSem);
-
 				File.WriteAllText(csvPath, csv.ToString());
 			}
 		}
