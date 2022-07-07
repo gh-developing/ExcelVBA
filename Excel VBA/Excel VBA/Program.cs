@@ -5,7 +5,7 @@ using System.IO;
 using System.Reflection;
 using Excel_VBA.Controller;
 using Excel_VBA.Model;
-using Microsoft.VisualBasic.FileIO;
+using Microsoft.Win32;
 
 namespace Excel_VBA
 {
@@ -13,15 +13,10 @@ namespace Excel_VBA
 	{
 		public static void Main(string[] args)
 		{
-			/*ComparisonService c = new ComparisonService();
-			c.CompareFiles();*/
+			CalculationService c = new CalculationService();
+			c.CompareFiles();
 
-			// FileImportService f = new FileImportService(@"C:\Users\chash\Desktop\FilesCSV\GeneratedFiles\File1.csv");
-
-			ConvertTxtToCsvService c = 
-				new ConvertTxtToCsvService();
-
-			c.RegexCsv(@"C:\Users\chash\Desktop\FilesCSV\GeneratedFiles\File1.csv");
+            // FileImportService f = new FileImportService(@"C:\Users\chash\Desktop\FilesCSV\GeneratedFiles\File1.csv");
 		}
 	}
 }

@@ -7,6 +7,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Momentum.Pm.PortalApi" Version="5.18.3.195" />
+    <PackageReference Include="Spire.XLS" Version="12.6.1" />
     <PackageReference Include="System.Collections.NonGeneric" Version="4.3.0" />
   </ItemGroup>
 

@@ -10,8 +10,6 @@ namespace Excel_VBA.Model
 	{
 		public string BOM { get; set; }
 		public string COSTS { get; set; }
-
-		public FilePropertiesDto File1Properties { get; set; }
-		public FilePropertiesDto File2Properties { get; set; }
+		
 	}
 }

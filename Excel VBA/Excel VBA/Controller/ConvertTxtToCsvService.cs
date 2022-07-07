@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using com.sun.tools.javac.comp;
 
 namespace Excel_VBA.Controller
 {
@@ -17,6 +16,8 @@ namespace Excel_VBA.Controller
 		private readonly Regex _regexPriceUnit = new(@"^(.*?);\s*[0-9]{1}\s*", Options);
 		private readonly Regex _regexCalcStructureLength = new(@"^(.*?)\s*;", Options);
 
+		private readonly Regex _regexCsvFile = new(@"^[^A-Za-z0-9]{1,2};", Options);
+
 		/// <summary>
 		/// Converts .txt file into .csv file
 		/// </summary>
@@ -25,11 +26,14 @@ namespace Excel_VBA.Controller
 		public void ConvertTxtToCsv(string txtPath, string csvPath, string destPath)
 		{
 			var csvFilePath = $@"{csvPath}";
-			var txtLines = System.IO.File.ReadAllLines($@"{txtPath}");
+			var txtLines = File.ReadAllLines($@"{txtPath}");
 
 			var result = string.Join(Environment.NewLine,
 				txtLines.Select(x => x.Split('\t'))
 					.Select(x => string.Join(";", x)));
+
+
+			result = _regexCsvFile.Replace(result, "");
 			File.WriteAllText(csvFilePath, result);
 
 			DuplicateCsvFile(csvPath, destPath);

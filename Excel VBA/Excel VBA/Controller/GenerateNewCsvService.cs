@@ -1,11 +1,9 @@
 ﻿
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Excel_VBA.Model;
-using Excel = Microsoft.Office.Interop.Excel;
 
 namespace Excel_VBA.Controller
 {
@@ -19,10 +17,11 @@ namespace Excel_VBA.Controller
 			var file1 = File.ReadAllLines(filePath + "File1.csv");
 			var file2 = File.ReadAllLines(filePath + "File2.csv");
 
-			var merge = calc.Zip(file1, (c, f) => string.Join(";", c, f));
+			var merge = calc.Zip(file1, (c, f) => string.Join(";;", c, f));
 			var result = merge.Zip(file2, (m, s) => string.Join(";;;", m, s));
 
 			File.WriteAllLines($@"{filePath + "GeneratedCalculation.csv"}", result);
+
 		}
 
 		private static void CalculationsToCsv(List<FileCalculationPropertiesDto> calculationResults, string filePath)

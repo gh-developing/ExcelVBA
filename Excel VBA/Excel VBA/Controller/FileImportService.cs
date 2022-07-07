@@ -14,7 +14,6 @@ namespace Excel_VBA.Controller
 		{
 			FileProperties = File
 				.ReadAllLines(filePath)
-				.Skip(2)
 				.Select(LineFromCsv)
 				.ToList();
 		}
@@ -46,28 +45,57 @@ namespace Excel_VBA.Controller
 
 		private static FilePropertiesDto LineFromCsv(string csvLine)
 		{
+			var fileProperties = new FilePropertiesDto();
 			var values = csvLine.Split(';');
-			var fileProperties = new FilePropertiesDto
+			try
 			{
-				Kalkulationsstruktur = values[0],
-				Material = values[1],
-				Preiseinheit = values[2],
-				ME = values[3],
-				Preis = values[4],
-				Kalkulationslosgroesse = values[5],
-				Menge = values[6],
-				BWME = values[7],
-				WertGesamt = values[8],
-				Waehrung = values[9],
-				Fehlerstatus = values[10],
-				PreisstrategieText = values[11],
-				KennzeichenBaugruppe = values[12],
-				KostenarteText = values[13],
-				Version = values[14],
-				Kalkulationsvariante = values[15],
-				Kostenart = values[16],
-				Ressource = values[17]
-			};
+				fileProperties = new FilePropertiesDto()
+				{
+					Kalkulationsstruktur = values[0],
+					Material = values[1],
+					Preiseinheit = values[2],
+					ME = values[3],
+					Preis = values[4],
+					Kalkulationslosgroesse = values[5],
+					Menge = values[6],
+					BWME = values[7],
+					WertGesamt = values[8],
+					Waehrung = values[9],
+					Fehlerstatus = values[10],
+					PreisstrategieText = values[11],
+					KennzeichenBaugruppe = values[12],
+					KostenarteText = values[13],
+					Version = values[14],
+					Kalkulationsvariante = values[15],
+					Kostenart = values[16],
+					Ressource = values[17]
+				};
+			}
+			catch (Exception)
+			{
+				fileProperties = new FilePropertiesDto()
+				{
+					Kalkulationsstruktur = "",
+					Material = "",
+					Preiseinheit = "",
+					ME = "",
+					Preis = "",
+					Kalkulationslosgroesse = "",
+					Menge = "",
+					BWME = "",
+					WertGesamt = "",
+					Waehrung = "",
+					Fehlerstatus = "",
+					PreisstrategieText = "",
+					KennzeichenBaugruppe = "",
+					KostenarteText = "",
+					Version = "",
+					Kalkulationsvariante = "",
+					Kostenart = "",
+					Ressource = ""
+				};
+			}
+			
 
 			return fileProperties;
 		}
